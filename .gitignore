@@ -1,0 +1,30 @@
+
+*.sqlite3
+*.sqlite
+db.sqlite3
+__pycache__/
+*.py[cod]
+migrations/
+!core/migrations/__init__.py
+
+### Environment ###
+/venv/*
+.env
+.env.local
+.env*.local
+
+### Статика ###
+/staticfiles/
+/media/
+
+### IDE ###
+.idea/
+.vscode/
+*.swp
+*.swo
+
+### Логи и временные файлы ###
+*.log
+*.pot
+*.pid
+*.dump
