@@ -1,0 +1,37 @@
+{% load static %}
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="{% static 'core/js/scripts.js' %}" defer></script>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="/">
+            <img src="{% static 'core/img/logo.svg' %}" alt="Логотип">
+        </a>
+    </div>
+</header>
+<main>
+    <div class="form-container">
+            <form method="post" id="main-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Сгенерировать JSON</button>
+            </form>
+    </div>
+    <div class="add-field-button">
+       <button type="button" onclick="addField()">Добавить шаг</button>
+    </div>
+        {% if json_data %}
+            <div class="code">
+                <pre>{{ json_data }}</pre>
+            </div>
+        {% endif %}
+</main>
+</body>
+</html>

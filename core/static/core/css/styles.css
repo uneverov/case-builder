@@ -1,0 +1,95 @@
+/* static/main/css/styles.css */
+header {
+    padding: 10px;
+    color: white;
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0
+}
+
+.logo img {
+    width: auto;
+    height: 40px;
+    margin: 0
+}
+
+body {
+    padding: 0px;
+    margin: 0;
+    color: black;
+}
+
+.form-container p {
+    margin-left: 50px;
+    display: flex;          /* Размещаем label и input на одной строке */
+    align-items: center;    /* Выравниваем по вертикали */
+    margin-bottom: 15px;    /* Отступ между элементами формы */
+}
+.form-container p label {
+    flex: 0 0 150px;
+    margin-right: 100px;     /* Отступ между названием и полем */
+    font-weight: bold;
+    min-width: 150px;       /* Фиксированная ширина для лейблов */
+}
+.form-container p input {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 5px;
+    flex-grow: 1;           /* Поле ввода занимает оставшееся пространство */
+    max-width: 600px;
+}
+
+.form-container p label.required::after {
+    content: " *";  /* Добавляем звездочку */
+    color: red;     /* Красный цвет */
+}
+
+.form-container button {
+    margin-left: 50px;  /* Отступ слева для кнопки */
+
+}
+
+.add-field-button {
+    margin-top: 10px;  /* Отступ слева для кнопки */
+    padding-left: 50px; /* Измените значение на нужное */
+}
+
+.code {
+    color: white;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: black;
+    padding: 10px;
+    margin-top: 10px;
+    font-family: monospace;
+    white-space: pre-wrap;  /* Сохраняем форматирование JSON */
+}
+
+p .delete-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 25%;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 20px;
+    font-size: 12px;
+    line-height: 1;
+    user-select: none;
+    transition: background 0.3s;
+}
+
+p .delete-btn:hover {
+    background: #cc0000;
+}
