@@ -1,0 +1,106 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script>
+        let fieldCounter = 0;
+
+        function loadSavedFields() {
+            const savedFields = localStorage.getItem('dynamicFields');
+            if (savedFields) {
+                const fields = JSON.parse(savedFields);
+                fields.forEach(field => {
+                    addFieldWithData(field.name, field.value, field.label);
+                });
+                fieldCounter = fields.length > 0 ? 
+                    Math.max(...fields.map(f => parseInt(f.name.replace('dynamic_field_', '')))) + 1 : 0;
+            }
+        }
+    
+        // Функция добавления поля с сохраненными данными
+        function addFieldWithData(name, value, labelText) {
+            const container = document.getElementById('main-form');
+            const p = document.createElement('p');
+            const label = document.createElement('label');
+            label.textContent = labelText || 'test';
+            
+            const input = document.createElement('input');
+            input.name = name;
+            input.value = value || '';
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'X';
+            deleteBtn.type = 'button';
+            deleteBtn.onclick = function() {
+                p.remove();
+                saveCurrentFields(); // Обновляем хранилище после удаления
+            };
+    
+            p.appendChild(label);
+            p.appendChild(input);
+            p.appendChild(deleteBtn);
+    
+            const lastElement = container.lastElementChild;
+            container.insertBefore(p, lastElement);
+        }
+    
+        // Функция сохранения текущих полей
+        function saveCurrentFields() {
+            const fields = [];
+            document.querySelectorAll('#main-form p').forEach(p => {
+                const input = p.querySelector('input[name^="dynamic_field_"]');
+                const label = p.querySelector('label');
+                if (input) {
+                    fields.push({
+                        name: input.name,
+                        value: input.value,
+                        label: label?.textContent || 'test'
+                    });
+                }
+            });
+            localStorage.setItem('dynamicFields', JSON.stringify(fields));
+        }
+    
+        // Исходная функция addField с сохранением
+        function addField() {
+            const name = 'dynamic_field_' + fieldCounter++;
+            addFieldWithData(name, '', 'test');
+            saveCurrentFields();
+        }
+    
+        // Загружаем сохраненные поля при загрузке страницы
+        document.addEventListener('DOMContentLoaded', loadSavedFields);
+    </script>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="/">
+            <img src="{% static 'main/img/logo.svg' %}" alt="Логотип">
+        </a>
+    </div>
+</header>
+    <div class="form-container">
+            <form method="post" id="main-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Сгенерировать JSON</button>
+            </form>
+    </div>
+    <div class="add-field-button">
+       <button type="button" onclick="addField()">Добавить шаг</button>
+    </div>
+        <!-- Отображение сгенерированного JSON -->
+        {% if json_data %}
+            <div class="code">
+                <pre>{{ json_data }}</pre>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>
