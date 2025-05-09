@@ -1,5 +1,7 @@
 import json
 from datetime import datetime
+import json
+from datetime import datetime
 from django.shortcuts import render
 from core.forms import BlockForm
 
@@ -19,11 +21,9 @@ def builder(request):
             }
             
             steps = {}
-            print(request.POST.items())
             for key, value in request.POST.items():
                 if key.startswith('step') and value:
-                    field_name = key.replace('step', '')
-                    steps[field_name] = value
+                    steps[key] = value
             
             if steps:
                 json_data['steps'] = steps
